@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="mContext"
+            type="android.content.Context" />
+
+        <variable
+            name="aqiData"
+            type="com.aqiapp.viewmodel.AQIListViewModel.CityWithAQIList" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/mainRowView"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tvCity"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@{aqiData.getCityName()}"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"/>
+
+        <TextView
+            android:id="@+id/tvCurrentAQI"
+            android:layout_width="0dp"
+            android:text="@{aqiData.getLatestAQI()}"
+            android:textColor="@{aqiData.getTextColorForAQI(mContext)}"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:layout_height="match_parent"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"/>
+
+        <TextView
+            android:id="@+id/tvLastUpdated"
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@{aqiData.getLastUpdated()}"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+
+</layout>

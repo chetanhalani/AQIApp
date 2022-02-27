@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AQIApp</string>
+    <string name="city">City</string>
+    <string name="current_aqi">Current AQI</string>
+    <string name="last_updated">Last Updated</string>
+    <string name="updated_at">Updated At : </string>
+    <string name="connecting">Connecting…</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="disconnecting">Disconnecting…</string>
+    <string name="user_requested">USER REQUESTED</string>
+</resources>
