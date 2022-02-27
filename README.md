@@ -16,4 +16,4 @@ View
 
 We have tried to negotiate with HttpClient for 30 seconds ping interval but server is not handeling that, so i have made one function in MainActivity that  we won't accept data if its before 30 seconds with respect to last udpate. Right now its commented for giving real time check.
 
-In Bottom, added textview in activity to have realtime check that socket is connected or not.
+In MainActivity, i have added textview at bottom to have realtime check that socket is connected or not.
