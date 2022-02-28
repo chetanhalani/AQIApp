@@ -9,7 +9,7 @@
     tools:context=".journey.AQIDetailFragment"
     android:focusable="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="10dp"
@@ -19,23 +19,16 @@
             android:id="@+id/tvCityName"
             android:layout_width="wrap_content"
             android:textColor="@color/black"
-            android:layout_alignParentLeft="true"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/tvCurrentAQI"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/tvCurrentAQI" />
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/tvCurrentAQI"
-            android:layout_width="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_width="match_parent"
             android:textColor="@color/black"
-            android:layout_toRightOf="@+id/tvCityName"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_toEndOf="@+id/tvCityName" />
+            android:gravity="right"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
