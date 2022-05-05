@@ -13,6 +13,7 @@ import com.aqiapp.adapter.AQIListAdapter
 import com.aqiapp.base.BaseFragment
 import com.aqiapp.databinding.AqiListFragmentBinding
 import com.aqiapp.viewmodel.AQIListViewModel
+import com.google.android.material.transition.MaterialContainerTransform
 
 class AQIListFragment : BaseFragment(), AQIListFragmentNavigation {
 
@@ -30,6 +31,11 @@ class AQIListFragment : BaseFragment(), AQIListFragmentNavigation {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.layoutContainer
+            duration = 3000L
+            scrimColor = Color.TRANSPARENT
+        }
         adapter = AQIListAdapter(this)
         binding.rvAQI.adapter = adapter
         val itemDecoration = DividerItemDecoration(binding.rvAQI.context, DividerItemDecoration.VERTICAL)

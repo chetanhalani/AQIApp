@@ -9,21 +9,45 @@ import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.aqiapp.R
 import com.aqiapp.extension.diffInSecondsWithCurrentTime
 import com.aqiapp.extension.getColorFromResources
+import com.aqiapp.websocket.AQIUpdate
+import com.aqiapp.websocket.AQIWebSocket
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
-class AQIListViewModel : ViewModel() {
+class AQIListViewModel : ViewModel(), AQIUpdate {
     private val localCityAQIList = ArrayList<CityWithAQIList>()
     private val mutableCitiesWithAQIList = MutableLiveData<List<CityWithAQIList>>()
     val cityWithAQIList : LiveData<List<CityWithAQIList>> get() = mutableCitiesWithAQIList
 
+    private val connectionStatus = MutableLiveData<String>()
+    val connectionLiveStatus : LiveData<String> get() = connectionStatus
+
+    private lateinit var webSocket: AQIWebSocket
+
+    private val gson = Gson()
+    private val gsoAQIListCityModelType = object : TypeToken<List<AQICityModel>>() {}.type
+    private var lastUpdateDate: Date? = null
+
+    fun connectSocket(mContext: Context) {
+        webSocket = AQIWebSocket(mContext = mContext, this)
+        webSocket.connect()
+    }
+
     @Keep
-    class CityWithAQIList(private val cityName: String?, private val aqiList: ArrayList<Double>?, private val date: Date) :
+    class CityWithAQIList(private val cityName: String?, private val aqiList: ArrayList<Double>?, private var date: Date) :
         Parcelable {
 
         private val FEW_SECONDS_AGO = "A few seconds ago"
@@ -46,6 +70,7 @@ class AQIListViewModel : ViewModel() {
         }
 
         fun addAQIToList(aqi: Double) {
+            date = Date()
             aqiList?.add(aqi)
         }
 
@@ -154,6 +179,21 @@ class AQIListViewModel : ViewModel() {
 
     private fun addAQIWithCity(cityWithAQIList: CityWithAQIList, aqiCityModel: AQICityModel) {
         cityWithAQIList.addAQIToList(aqiCityModel.aqiValue)
+    }
+
+    override fun connectionUpdate(connectionStatus: String) {
+        this.connectionStatus.postValue(connectionStatus)
+    }
+
+    override fun dataUpdate(message: String) {
+        val aqiList = gson.fromJson<List<AQICityModel>>(message, gsoAQIListCityModelType)
+        processCityWithAQI(aqiList)
+        lastUpdateDate = Date()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        webSocket.disconnect()
     }
 
 }

@@ -7,6 +7,7 @@
     android:background="@color/white"
     android:clickable="true"
     tools:context=".journey.AQIDetailFragment"
+    android:transitionName="aqi_detail_fragment"
     android:focusable="true">
 
     <LinearLayout

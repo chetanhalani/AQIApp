@@ -17,6 +17,7 @@
         android:id="@+id/mainRowView"
         android:layout_width="match_parent"
         android:orientation="horizontal"
+        android:transitionName="@{aqiData.getCityName()}"
         android:layout_height="50dp">
 
         <TextView
